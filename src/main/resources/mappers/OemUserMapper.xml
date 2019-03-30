@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seven.iris.dao.OemUserDao">
+    <resultMap type="OemUser" id="UserResult">
+        <result property="id" column="id"/>
+        <result property="oemId" column="oem_id"/>
+        <result property="factoryId" column="factory_id"/>
+        <result property="realname" column="realname"/>
+        <result property="email" column="email"/>
+        <result property="mobileNumber" column="mobile_number"/>
+        <result property="nickname" column="nickname"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="findById" parameterType="int" resultMap="UserResult">
+        SELECT *
+        FROM oem_user
+        WHERE id = #{id}
+    </select>
+
+    <select id="userPage" parameterType="Map" resultMap="UserResult">
+        select * from oem_user
+        <where>
+            <if test="id!=null and id!=0 ">
+                and id like #{id}
+            </if>
+        </where>
+        <if test="pageIndex!=null and pageSize!=null">
+            limit #{pageIndex},#{pageSize}
+        </if>
+    </select>
+
+    <select id="userCount" parameterType="Map" resultType="int">
+        select count(1) from oem_user
+        <where>
+            <if test="id!=null and id!='' ">
+                and id like #{id}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteUser" parameterType="java.util.List">
+        delete from oem_user where id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="addUser" parameterType="OemUser">
+        INSERT INTO oem_user (oem_id, category_id, factory_id, realname, email, mobile_number, nickname, password) VALUES
+            (#{oemId}, #{categoryId}, #{factoryId}, #{realname}, #{email}, #{mobileNumber}, #{nickname},
+             #{password});
+    </insert>
+
+    <update id="updateUser" parameterType="OemUser">
+        update oem_user
+        <set>
+            <if test="oemId!=null and oemId!='' ">
+                oem_id=#{oemId},
+            </if>
+            <if test="categoryId!=null and categoryId!='' ">
+                category_id=#{categoryId},
+            </if>
+            <if test="factoryId!=null and factoryId!='' ">
+                factory_id=#{factoryId},
+            </if>
+            <if test="realname!=null and realname!='' ">
+                realname=#{realname},
+            </if>
+            <if test="email!=null and email!='' ">
+                email=#{email},
+            </if>
+            <if test="mobileNumber!=null and email!='' ">
+                mobile_number=#{mobileNumber},
+            </if>
+            <if test="nickname!=null and nickname!='' ">
+                nickname=#{nickname},
+            </if>
+            <if test="password!=null and password!='' ">
+                password=#{password},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+</mapper>

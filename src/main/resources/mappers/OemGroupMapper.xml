@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seven.iris.dao.OemGroupDao">
+    <resultMap type="OemGroup" id="GroupResult">
+        <result property="id" column="id"/>
+        <result property="oemId" column="oem_id"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="roleName" column="role_name"/>
+    </resultMap>
+    <select id="findGroup" resultMap="GroupResult">
+        SELECT *
+        FROM oem_group
+    </select>
+    <select id="groupPage" parameterType="Map" resultMap="GroupResult">
+        select * from oem_group
+        <if test="pageIndex!=null and pageSize!=null">
+            limit #{pageIndex},#{pageSize}
+        </if>
+    </select>
+    <select id="findByUserId" parameterType="int" resultMap="GroupResult">
+        SELECT
+            g.id        AS id,
+            g.oem_id    AS oemId,
+            g.role_desc AS roleDesc,
+            g.role_name AS roleName
+        FROM oem_group g LEFT JOIN user_group m ON m.group_id = g.id
+            LEFT JOIN oem_user u ON u.id = m.user_id
+        WHERE u.id = #{userId}
+    </select>
+
+    <select id="groupCount" parameterType="Map" resultType="int">
+        SELECT count(1)
+        FROM oem_group
+    </select>
+
+    <delete id="deleteGroup" parameterType="java.util.List">
+        delete from oem_group where id in
+        <foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="addGroup" parameterType="com.seven.iris.model.OemGroup">
+        INSERT INTO oem_group (oem_id, role_desc, role_name) VALUES (#{oemId}, #{roleDesc}, #{roleName});
+    </insert>
+
+    <update id="updateGroup" parameterType="com.seven.iris.model.OemGroup">
+        update oem_group
+        <set>
+            <if test="roleName!=null and roleName!='' ">
+                role_name=#{roleName},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>
