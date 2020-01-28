@@ -66,7 +66,7 @@ Activiti支持BPMN2.0标准并加入了一些自定义的属性。
 
 定义分成流程和流程图两个部分，根据定义中的流程图定义可以生成流程图如下。
 
-![leave](.\leave.png)
+![leave](https://github.com/lanitaleon/Note-for-Activiti/blob/master/doc/leave.png)
 
 #### 2.3 基本元素
 
@@ -457,11 +457,11 @@ modelView.addObject("height", activityImpl.getHeight());
 
 ##### 1. 增加中转节点
 
-![createOrder](.\createOrder.png)
+![createOrder](https://github.com/lanitaleon/Note-for-Activiti/blob/master/doc/createOrder.png)
 
 实际上不增加中转节点直接指向需要回退的节点也没有什么问题。
 
-![back](.\back.png)
+![back](https://github.com/lanitaleon/Note-for-Activiti/blob/master/doc/back.png)
 
 ##### 2. 自定义扩展
 
@@ -543,7 +543,7 @@ Activiti官方demo中提供了web端绘制流程定义的方式，只要将该�
 
 最终页面展示：
 
-![modeler](E:\FTCenter\doc\培训\2019-03-activiti实战-spp\modeler.png)
+![modeler](https://github.com/lanitaleon/Note-for-Activiti/blob/master/doc/modeler.png)
 
 绘制的model可以先进行校验。
 
